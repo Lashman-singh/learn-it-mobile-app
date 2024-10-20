@@ -1,4 +1,4 @@
-package np.com.lashman.learnit.ui.theme
+package np.com.lashman.learnit.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

@@ -1,6 +1,5 @@
-package np.com.lashman.learnit.ui.theme
+package np.com.lashman.learnit.presentation.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
