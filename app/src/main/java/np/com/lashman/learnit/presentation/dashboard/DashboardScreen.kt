@@ -16,29 +16,38 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import np.com.lashman.learnit.R
+import np.com.lashman.learnit.domain.model.Session
 import np.com.lashman.learnit.domain.model.Subject
 import np.com.lashman.learnit.domain.model.Task
 import np.com.lashman.learnit.presentation.components.CountCard
 import np.com.lashman.learnit.presentation.components.SubjectCard
 import np.com.lashman.learnit.presentation.components.TaskList
+import np.com.lashman.learnit.presentation.components.studySessionsList
 
 @Composable
 fun DashboardScreen() {
     // Hardcoded subjects and tasks
     val subjects = listOf(
-        Subject(name = "Python", goalHours = 10f, colors = Subject.subjectCardColors[0]),
-        Subject(name = "Web Dev", goalHours = 10f, colors = Subject.subjectCardColors[1]),
-        Subject(name = "DBMS", goalHours = 10f, colors = Subject.subjectCardColors[2]),
-        Subject(name = "CX/UX", goalHours = 10f, colors = Subject.subjectCardColors[3]),
-        Subject(name = "AWS", goalHours = 10f, colors = Subject.subjectCardColors[4])
+        Subject(name = "Python", goalHours = 10f, colors = Subject.subjectCardColors[0], subjectId = 1),
+        Subject(name = "Web Dev", goalHours = 10f, colors = Subject.subjectCardColors[1], subjectId = 2),
+        Subject(name = "DBMS", goalHours = 10f, colors = Subject.subjectCardColors[2], subjectId = 3),
+        Subject(name = "CX/UX", goalHours = 10f, colors = Subject.subjectCardColors[3], subjectId = 4),
+        Subject(name = "AWS", goalHours = 10f, colors = Subject.subjectCardColors[4], subjectId = 5)
     )
 
     val tasks = listOf(
-        Task(title = "Read notes", description = "", dueDate = 0L, priority = 1, relatedToSubject = "Python", isCompleted = false),
-        Task(title = "Speck notes", description = "", dueDate = 0L, priority = 1, relatedToSubject = "Python", isCompleted = false),
-        Task(title = "Write notes", description = "", dueDate = 0L, priority = 1, relatedToSubject = "Python", isCompleted = true),
+        Task(title = "Read notes", description = "", dueDate = 0L, priority = 0, relatedToSubject = "Python", isCompleted = true, taskId = 0, taskSubjectId = 1),
+        Task(title = "Speak notes", description = "", dueDate = 1696200000000L, priority = 1, relatedToSubject = "Python", isCompleted = false, taskId = 1, taskSubjectId = 2),
+        Task(title = "Write notes", description = "", dueDate = 1696800000000L, priority = 2, relatedToSubject = "Python", isCompleted = true, taskId = 2, taskSubjectId = 1),
     )
 
+    val session = listOf(
+        Session(sessionSubjectId = 0, relatedToSubject = "Python", date = 0L, duration = 2, sessionId = 0),
+        Session(sessionSubjectId = 1, relatedToSubject = "AWS", date = 0L, duration = 12, sessionId = 1),
+        Session(sessionSubjectId = 2, relatedToSubject = "Python", date = 1L, duration = 5, sessionId = 3),
+        Session(sessionSubjectId = 0, relatedToSubject = "Web Dev", date = 0L, duration = 2, sessionId = 2),
+
+        )
     Scaffold(
         topBar = { DashboardScreenTopBar() }
     ) { paddingValues ->
@@ -49,7 +58,9 @@ fun DashboardScreen() {
         ) {
             item {
                 CountCardSection(
-                    modifier = Modifier.fillMaxWidth().padding(12.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(12.dp),
                     subjectCount = subjects.size,
                     studiedHours = 10,
                     studyHoursGoal = 15
@@ -64,7 +75,9 @@ fun DashboardScreen() {
             item {
                 Button(
                     onClick = {},
-                    modifier = Modifier.fillMaxWidth().padding(horizontal = 48.dp, vertical = 20.dp)
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 48.dp, vertical = 20.dp)
                 ) {
                     Text(text = "Start Study Session")
                 }
@@ -73,7 +86,21 @@ fun DashboardScreen() {
                 TaskList(
                     sectionTitle = "UPCOMING TASKS",
                     emptyListText = "You don't have any tasks.\nClick the + button to add new tasks.",
-                    tasks = tasks
+                    tasks = tasks,
+                    onTasksCardClick = { /* Handle task card click */ },
+                    onCheckBoxClick = { /* Handle checkbox click */ }
+                )
+            }
+            item {
+                Spacer(modifier = Modifier.height(20.dp))
+            }
+            item{
+                studySessionsList(
+                    sectionTitle = "STUDY SESSIONS",
+                    emptyListText = "You don't have any study sessions.\n" +
+                        "Click the + Start a study session to begin recording you progress.",
+                    sessions = session,
+                    onDeleteIconClick = {}
                 )
             }
         }

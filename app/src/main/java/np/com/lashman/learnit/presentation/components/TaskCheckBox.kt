@@ -23,16 +23,22 @@ fun TaskCheckBox(
     onCheckBoxClick: () -> Unit,
     borderColor: Color
 ) {
-    // Simple Checkbox implementation
-    Row(
+    Box(
         modifier = Modifier
-            .clickable(onClick = onCheckBoxClick)
-            .size(24.dp) // Set a fixed size to prevent infinity issues
+            .size(24.dp)
+            .clip(CircleShape) // Makes the checkbox rounded
+            .border(2.dp, borderColor, CircleShape) // Applies border with priority color
+            .clickable(onClick = onCheckBoxClick),
+        contentAlignment = Alignment.Center
     ) {
         Checkbox(
             checked = isComplete,
             onCheckedChange = { onCheckBoxClick() },
-            colors = CheckboxDefaults.colors(checkmarkColor = Color.White)
+            colors = CheckboxDefaults.colors(
+                checkmarkColor = Color.White,
+                checkedColor = borderColor, // Uses priority color when checked
+                uncheckedColor = Color.Transparent
+            )
         )
     }
 }

@@ -20,12 +20,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import np.com.lashman.learnit.R
 import np.com.lashman.learnit.domain.model.Task
+import np.com.lashman.learnit.util.Priority
 
 @Composable
 fun TaskList(
     sectionTitle: String,
     tasks: List<Task>,
-    emptyListText: String
+    emptyListText: String,
+    onTasksCardClick: (Int?) -> Unit,
+    onCheckBoxClick: (Task) -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -48,8 +51,8 @@ fun TaskList(
                 TaskCard(
                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 4.dp),
                     task = task,
-                    onCheckBoxClick = { /* Handle checkbox click */ },
-                    onClick = { /* Handle card click */ }
+                    onCheckBoxClick = { onCheckBoxClick(task)},
+                    onClick = { onTasksCardClick(task.taskId) }
                 )
             }
         }
@@ -96,7 +99,7 @@ private fun TaskCard(
             TaskCheckBox(
                 isComplete = task.isCompleted,
                 onCheckBoxClick = onCheckBoxClick,
-                borderColor = Color.Black
+                borderColor = Priority.fromInt(task.priority).color,
             )
             Spacer(modifier = Modifier.width(10.dp))
             Column(
@@ -117,7 +120,7 @@ private fun TaskCard(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = "${task.dueDate}", // Ensure proper formatting
+                    text = "${task.dueDate}", // Format this date properly
                     style = MaterialTheme.typography.bodySmall
                 )
             }
