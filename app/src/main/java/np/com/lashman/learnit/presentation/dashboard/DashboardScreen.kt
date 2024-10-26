@@ -17,18 +17,26 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import np.com.lashman.learnit.R
 import np.com.lashman.learnit.domain.model.Subject
+import np.com.lashman.learnit.domain.model.Task
 import np.com.lashman.learnit.presentation.components.CountCard
 import np.com.lashman.learnit.presentation.components.SubjectCard
+import np.com.lashman.learnit.presentation.components.TaskList
 
 @Composable
 fun DashboardScreen() {
-    // Hardcoded subjects
+    // Hardcoded subjects and tasks
     val subjects = listOf(
         Subject(name = "Python", goalHours = 10f, colors = Subject.subjectCardColors[0]),
         Subject(name = "Web Dev", goalHours = 10f, colors = Subject.subjectCardColors[1]),
         Subject(name = "DBMS", goalHours = 10f, colors = Subject.subjectCardColors[2]),
         Subject(name = "CX/UX", goalHours = 10f, colors = Subject.subjectCardColors[3]),
         Subject(name = "AWS", goalHours = 10f, colors = Subject.subjectCardColors[4])
+    )
+
+    val tasks = listOf(
+        Task(title = "Read notes", description = "", dueDate = 0L, priority = 1, relatedToSubject = "Python", isCompleted = false),
+        Task(title = "Speck notes", description = "", dueDate = 0L, priority = 1, relatedToSubject = "Python", isCompleted = false),
+        Task(title = "Write notes", description = "", dueDate = 0L, priority = 1, relatedToSubject = "Python", isCompleted = true),
     )
 
     Scaffold(
@@ -41,10 +49,8 @@ fun DashboardScreen() {
         ) {
             item {
                 CountCardSection(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(12.dp),
-                    subjectCount = subjects.size, // Update here to use hardcoded subjects
+                    modifier = Modifier.fillMaxWidth().padding(12.dp),
+                    subjectCount = subjects.size,
                     studiedHours = 10,
                     studyHoursGoal = 15
                 )
@@ -52,13 +58,27 @@ fun DashboardScreen() {
             item {
                 SubjectCardsSection(
                     modifier = Modifier.fillMaxWidth(),
-                    subjectList = subjects // Use hardcoded subjects
+                    subjectList = subjects
+                )
+            }
+            item {
+                Button(
+                    onClick = {},
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 48.dp, vertical = 20.dp)
+                ) {
+                    Text(text = "Start Study Session")
+                }
+            }
+            item {
+                TaskList(
+                    sectionTitle = "UPCOMING TASKS",
+                    emptyListText = "You don't have any tasks.\nClick the + button to add new tasks.",
+                    tasks = tasks
                 )
             }
         }
     }
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
