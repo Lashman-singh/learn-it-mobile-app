@@ -43,6 +43,7 @@ import np.com.lashman.learnit.domain.model.Subject
 import np.com.lashman.learnit.domain.model.Task
 import np.com.lashman.learnit.presentation.components.AddSubjectDialog
 import np.com.lashman.learnit.presentation.components.CountCard
+import np.com.lashman.learnit.presentation.components.DeleteDialog
 import np.com.lashman.learnit.presentation.components.SubjectCard
 import np.com.lashman.learnit.presentation.components.TaskList
 import np.com.lashman.learnit.presentation.components.studySessionsList
@@ -73,6 +74,7 @@ fun DashboardScreen() {
         )
 
     var isAddSubjectDialogOpen by rememberSaveable { mutableStateOf(false) }
+    var isDeleteDialogOpen by rememberSaveable { mutableStateOf(false) }
 
     var subjectName by remember {mutableStateOf("")}
     var goalHours by remember {mutableStateOf("")}
@@ -88,6 +90,16 @@ fun DashboardScreen() {
         onGoalHoursChange = { goalHours = it },
         onDismissRequest = {isAddSubjectDialogOpen = false},
         onConfirmButtonClick = {isAddSubjectDialogOpen = false}
+    )
+
+    DeleteDialog(
+        isOpen = false,
+        title = "Delete Subject",
+        bodyText = "Are you sure you want to delete this session?",
+        onDismissRequest = { isDeleteDialogOpen = false },
+        onConfirmButtonClick = {
+            isDeleteDialogOpen = false
+        }
     )
     Scaffold(
         topBar = { DashboardScreenTopBar() }
@@ -138,13 +150,14 @@ fun DashboardScreen() {
             item {
                 Spacer(modifier = Modifier.height(20.dp))
             }
-            item{
+            item {
                 studySessionsList(
                     sectionTitle = "STUDY SESSIONS",
-                    emptyListText = "You don't have any study sessions.\n" +
-                        "Click the + Start a study session to begin recording you progress.",
+                    emptyListText = "You don't have any study sessions.\nClick the + Start a study session to begin recording your progress.",
                     sessions = session,
-                    onDeleteIconClick = {}
+                    onDeleteIconClick = { selectedSession ->
+                        isDeleteDialogOpen = true
+                    }
                 )
             }
         }

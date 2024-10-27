@@ -32,14 +32,12 @@ fun studySessionsList(
             .fillMaxWidth()
             .padding(16.dp)
     ) {
-        // Header as the first item in Column
         Text(
             text = sectionTitle,
             style = MaterialTheme.typography.bodySmall,
             modifier = Modifier.padding(bottom = 8.dp)
         )
 
-        // Check if sessions list is empty and show appropriate message
         if (sessions.isEmpty()) {
             EmptyTaskList(emptyListText = emptyListText)
         } else {
@@ -53,6 +51,7 @@ fun studySessionsList(
         }
     }
 }
+
 
 @Composable
 private fun EmptyTaskList(emptyListText: String) {
@@ -114,7 +113,7 @@ private fun StudySessionCard(
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = "Delete Study Session",
-                    tint = Color.Gray
+                    tint = Color.Black
                 )
             }
         }
